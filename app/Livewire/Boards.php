@@ -14,6 +14,7 @@ class Boards extends Component
 
     public $title;
     public $description;
+    public $editIndex;
     public function saveBoard(): void
     {
         Board::query()->create([
@@ -22,8 +23,32 @@ class Boards extends Component
             'description'=>$this->description,
         ]);
 
+        $this->reset('title', 'description');
+
         $this->dispatch('closeModal');
-        $this->dispatch('successMessage');
+        $this->dispatch('successMessage',['title'=>'پروژه ایجاد شد']);
+    }
+
+    public function editBoard($id)
+    {
+        $board = Board::query()->find($id);
+        $this->title = $board->title;
+        $this->description = $board->description;
+        $this->editIndex = $id;
+    }
+
+    public function updateBoard()
+    {
+        $board = Board::query()->find($this->editIndex);
+        $board->update([
+            'title' => $this->title,
+            'description' => $this->description,
+        ]);
+
+        $this->reset('title', 'description');
+        $this->editIndex = null;
+        $this->dispatch('closeModal');
+        $this->dispatch('successMessage',['title'=>'پروژه ویرایش شد']);
     }
 
     #[On('destroyBoard')]

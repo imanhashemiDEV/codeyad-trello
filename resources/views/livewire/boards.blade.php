@@ -116,7 +116,11 @@
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
+                                @if($editIndex)
+                                <h5 class="modal-title" id="modalCenterTitle">ویرایش پروژه</h5>
+                                @else
                                 <h5 class="modal-title" id="modalCenterTitle">ایجاد پروژه</h5>
+                                @endif
                                 <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                             </div>
                             <div class="modal-body">
@@ -133,7 +137,11 @@
                             </div>
                             <div class="modal-footer">
                                 <button  class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal" type="button"> بستن</button>
-                                <button wire:click="saveBoard"  class="btn btn-primary waves-effect waves-light" type="button">ذخیره</button>
+                                @if($editIndex)
+                                <button wire:click="updateBoard"  class="btn btn-info waves-effect waves-light" type="button">ویرایش</button>
+                                @else
+                                    <button wire:click="saveBoard"  class="btn btn-primary waves-effect waves-light" type="button">ذخیره</button>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -163,6 +171,12 @@
                                                 <i class="ti ti-dots-vertical text-muted"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
+                                                <li data-bs-target="#modalCenter" data-bs-toggle="modal" wire:click="editBoard({{$board->id}})">
+                                                    <a class="dropdown-item" href="#">ویرایش پروژه</a>
+                                                </li>
+                                                <li>
+                                                    <hr class="dropdown-divider" />
+                                                </li>
                                                 <li wire:click="$dispatch('archivedMessage',{ id : {{$board->id}} })">
                                                     <a class="dropdown-item" href="#">آرشیو پروژه</a>
                                                 </li>
@@ -193,11 +207,11 @@
         $('#modalCenter').modal('hide')
     })
 
-    $wire.on('successMessage' , function (){
+    $wire.on('successMessage' , function (event){
         Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'پروژه جدید ایجاد شد',
+            title: event[0].title,
             confirmButtonText: 'باشه',
             showConfirmButton: false,
             timer: 1500,
