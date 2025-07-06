@@ -6,6 +6,7 @@ use App\Enums\BoardStatus;
 use App\Models\Board;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Boards extends Component
@@ -22,6 +23,22 @@ class Boards extends Component
         ]);
 
         $this->dispatch('closeModal');
+        $this->dispatch('successMessage');
+    }
+
+    #[On('destroyBoard')]
+    public function destroyBoard($id)
+    {
+        Board::destroy($id);
+    }
+
+    #[On('archivedBoard')]
+    public function archivedBoard($id)
+    {
+        $board = Board::query()->find($id);
+        $board->update([
+            'status' => BoardStatus::ARCHIVED->value,
+        ]);
     }
     #[Layout('panel.master')]
     public function render():View

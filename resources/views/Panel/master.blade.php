@@ -9,8 +9,6 @@
     <!-- Favicon -->
     <link href="{{url('assets/img/favicon/favicon.ico')}}" rel="icon" type="image/x-icon"/>
     <link href="{{url('assets/vendor/fonts/tabler-icons.css')}}" rel="stylesheet"/>
-    <!-- <link rel="stylesheet" href="assets/vendor/fonts/fontawesome.css" /> -->
-    <!-- <link rel="stylesheet" href="assets/vendor/fonts/flag-icons.css" /> -->
     <!-- Core CSS -->
     <link class="template-customizer-core-css" href="{{url('assets/vendor/css/rtl/core.css')}}" rel="stylesheet"/>
     <link class="template-customizer-theme-css" href="{{url('assets/vendor/css/rtl/theme-default.css')}}" rel="stylesheet"/>
@@ -18,12 +16,13 @@
     <!-- Vendors CSS -->
     <link href="{{url('assets/vendor/libs/node-waves/node-waves.css')}}" rel="stylesheet"/>
     <link href="{{url('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{url('assets/vendor/libs/animate-css/animate.css')}}" />
+    <link rel="stylesheet" href="{{url('assets/vendor/libs/sweetalert2/sweetalert2.css')}}" />
     <!-- Page CSS -->
     <!-- Helpers -->
     <script src="{{url('assets/vendor/js/helpers.js')}}"></script>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{url('assets/js/config.js')}}"></script>
     <!-- Better experience of RTL -->
@@ -48,6 +47,7 @@
 <!-- Vendors JS -->
 <!-- Main JS -->
 <script src="{{url('assets/js/main.js')}}"></script>
+<script src="{{url('assets/vendor/libs/sweetalert2/sweetalert2.js')}}"></script>
 <!-- Page JS -->
 </body>
 </html>

@@ -108,7 +108,6 @@
     <!-- Content -->
     <div class=" flex-grow-1 container-p-y mt-5 p-5">
         <div class="my-3">
-
             <div class="mt-3">
                 <!-- Button trigger modal -->
                 <button class="btn btn-primary waves-effect waves-light" data-bs-target="#modalCenter" data-bs-toggle="modal" type="button">ایجاد پروژه</button>
@@ -122,11 +121,11 @@
                             </div>
                             <div class="modal-body">
                                 <div class="row">
-                                    <div class="col mb-3">
+                                    <div class="col-12 mb-3">
                                         <label class="form-label" for="nameWithTitle">نام پروژه</label>
                                         <input wire:model="title" class="form-control" id="nameWithTitle" placeholder="نام پروژه را وارد کنید" type="text">
                                     </div>
-                                    <div class="col mb-3">
+                                    <div class="col-12 mb-3">
                                         <label class="form-label" for="nameWithTitle">توضیحات پروژه</label>
                                         <input wire:model="description" class="form-control" id="nameWithTitle" placeholder="نام پروژه را وارد کنید" type="text">
                                     </div>
@@ -164,16 +163,14 @@
                                                 <i class="ti ti-dots-vertical text-muted"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li>
-                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                    >تغییر نام</a
-                                                    >
+                                                <li wire:click="$dispatch('archivedMessage',{ id : {{$board->id}} })">
+                                                    <a class="dropdown-item" href="#">آرشیو پروژه</a>
                                                 </li>
                                                 <li>
                                                     <hr class="dropdown-divider" />
                                                 </li>
-                                                <li>
-                                                    <a class="dropdown-item text-danger" href="#">ترک کردن پروژه</a>
+                                                <li wire:click="$dispatch('deleteMessage',{ id : {{$board->id}} })">
+                                                    <a class="dropdown-item text-danger" href="#">حذف پروژه</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -194,6 +191,59 @@
 <script>
     $wire.on('closeModal' , function (){
         $('#modalCenter').modal('hide')
+    })
+
+    $wire.on('successMessage' , function (){
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'پروژه جدید ایجاد شد',
+            confirmButtonText: 'باشه',
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                confirmButton: 'btn btn-primary waves-effect waves-light'
+            },
+            buttonsStyling: false
+        });
+    })
+
+    $wire.on('deleteMessage' , function (event){
+        Swal.fire({
+            title: 'آیا از حذف مطمئن هستید؟',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'بله',
+            cancelButtonText: 'خیر',
+            customClass: {
+                confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+            },
+            buttonsStyling: false
+        }).then(function (result) {
+            if (result.value) {
+                  $wire.dispatch('destroyBoard', { id : event.id})
+            }
+        });
+    })
+
+    $wire.on('archivedMessage' , function (event){
+        Swal.fire({
+            title: 'آیا از آرشیو کردن مطمئن هستید؟',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'بله',
+            cancelButtonText: 'خیر',
+            customClass: {
+                confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+            },
+            buttonsStyling: false
+        }).then(function (result) {
+            if (result.value) {
+                $wire.dispatch('archivedBoard', { id : event.id})
+            }
+        });
     })
 </script>
 @endscript

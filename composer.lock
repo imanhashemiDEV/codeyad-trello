@@ -4,8 +4,65 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9929ae0f39b99702c171f9c9695fdcb9",
+    "content-hash": "f37fc68ca87d540ae53af0e9f60c3a10",
     "packages": [
+        {
+            "name": "ab01faz101/tail-alert",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Ab01faz101/tail_alert.git",
+                "reference": "b75553f0332248c5db9c7a74756d6a266667c7e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Ab01faz101/tail_alert/zipball/b75553f0332248c5db9c7a74756d6a266667c7e9",
+                "reference": "b75553f0332248c5db9c7a74756d6a266667c7e9",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^11.0 || ^12.0",
+                "livewire/livewire": "^3.0",
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ab01faz101\\TailAlert\\TailAlertServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ab01faz101\\TailAlert\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abolfazl Qaederahmat",
+                    "email": "ar.rahmatyy@gmail.com"
+                }
+            ],
+            "description": "A lightweight and responsive alert package for Laravel Livewire, built with Tailwind CSS.",
+            "keywords": [
+                "alert",
+                "laravel",
+                "livewire",
+                "notification",
+                "tailwind",
+                "toast"
+            ],
+            "support": {
+                "issues": "https://github.com/Ab01faz101/tail_alert/issues",
+                "source": "https://github.com/Ab01faz101/tail_alert/tree/v3.0.0"
+            },
+            "time": "2025-06-04T06:52:17+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.13.1",
