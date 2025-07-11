@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Board extends Model
 {
@@ -12,4 +13,9 @@ class Board extends Model
         'description',
         'status',
     ];
+
+    public function board_columns():HasMany
+    {
+        return $this->hasMany(BoardColumn::class);
+    }
 }

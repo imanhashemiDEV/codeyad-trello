@@ -29,7 +29,7 @@
     <link href="{{url('assets/css/rtl.css')}}" rel="stylesheet"/>
 </head>
 
-<body class="pt-4">
+<body class="p-4">
 <!-- Layout wrapper -->
 <!-- Layout container -->
          {{$slot}}

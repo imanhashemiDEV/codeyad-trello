@@ -150,16 +150,21 @@
         </div>
         <div class="row">
             @foreach($boards as $board)
-            <div class="col-sm-6 col-lg-3 mb-4">
-                <div class="card card-border-shadow-info">
-                    <div class="card-body"  style="height: 150px;">
+
+                    <div class="col-sm-6 col-lg-3 mb-4">
+
+                        <div class="card card-border-shadow-info">
+
+                            <div class="card-body"  style="height: 150px;">
                                 <div class="d-flex align-items-center mb-2 pb-1">
                                     <div class="avatar me-2">
                                     <span class="avatar-initial rounded bg-label-info">
                                     <i class="ti ti-clock ti-md"></i>
                                     </span>
                                     </div>
+                                    <a href="{{route('board.columns',$board->id)}}">
                                     <h4 class="ms-1 mb-0">{{$board->title}}</h4>
+                                    </a>
                                     <div class="ms-auto">
                                         <div class="dropdown z-2">
                                             <button
@@ -191,9 +196,12 @@
                                     </div>
                                 </div>
                                 <p class="mb-1">{{$board->description}}</p>
+                            </div>
+
+                        </div>
+
                     </div>
-                </div>
-            </div>
+
             @endforeach
         </div>
     </div>

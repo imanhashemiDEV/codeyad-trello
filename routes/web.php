@@ -1,12 +1,15 @@
 <?php
 
+use App\Livewire\BoardColumns;
+use App\Livewire\Boards;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function (){
-    Route::get('/', \App\Livewire\Boards::class)->name('home');
+    Route::get('/', Boards::class)->name('home');
+    Route::get('/board_columns/{id}', BoardColumns::class)->name('board.columns');
 });
 
 
