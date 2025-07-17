@@ -66,18 +66,31 @@
     <!-- Project Cards -->
     <div class="d-flex flex-nowrap overflow-scroll">
         @foreach($this->boardColumns as $column)
-            <div class="col-3 mx-2">
+            <div class="col-3 mx-2" x-data="{editing:false}">
                 <div class="card overflow-scroll" style="height: 65vh;">
                     <div class="card-header">
-                        <div class="d-flex align-items-start">
+                        <div class="d-flex align-items-start" x-on:click.outside="editing=false">
                             <div class="d-flex align-items-start">
                                 <div class="avatar avatar-md me-2 mt-auto mb-auto">
                                     <img alt="آواتار" class="rounded-circle" src="{{url('assets/img/avatars/12.png')}}"/>
                                 </div>
                                 <div class="me-2 ms-1">
-                                        <h5 class="mb-0" >
-                                            <a class="stretched-link text-body" href="javascript:">{{$column->title}}</a>
+                                        <h5 class="mb-0" x-show="!editing">
+                                            {{$column->title}}
                                         </h5>
+                                    <template x-if="editing">
+                                        <div class="d-flex">
+                                            <input x-show="editing" class="form-control"  type="text" value="{{$column->title}}">
+                                            <button x-on:click="editing=false"
+                                                aria-expanded="false"
+                                                class="btn p-0 mr-2"
+                                                type="button"
+                                            >
+                                                <i class="ti ti-device-floppy text-success"></i>
+                                            </button>
+                                        </div>
+                                    </template>
+
                                 </div>
                             </div>
                             <div class="ms-auto">
@@ -91,20 +104,17 @@
                                         <i class="ti ti-dots-vertical text-muted"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0);">تغییر نام</a>
+                                        <li x-on:click="editing=true" x-show="!editing">
+                                            <a class="dropdown-item cursor-pointer"> ویرایش</a>
                                         </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0);">مشاهده جزئیات</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0);">افزودن به علاقه‌مندی‌ها</a>
+                                        <li  x-show="editing">
+                                            <a class="dropdown-item cursor-pointer"> در حال ویرایش</a>
                                         </li>
                                         <li>
                                             <hr class="dropdown-divider" />
                                         </li>
                                         <li>
-                                            <a class="dropdown-item text-danger" href="javascript:void(0);">ترک کردن پروژه</a>
+                                            <a class="dropdown-item text-danger cursor-pointer">حذف</a>
                                         </li>
                                     </ul>
                                 </div>
