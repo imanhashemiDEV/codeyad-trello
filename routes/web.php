@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function (){
     Route::get('/', Boards::class)->name('home');
-    Route::get('/board_columns/{id}', BoardColumns::class)->name('board.columns');
+    Route::get('/board_columns/{board}', BoardColumns::class)->name('board.columns');
 });
 
 

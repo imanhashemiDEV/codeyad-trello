@@ -29,7 +29,7 @@ class Boards extends Component
         $this->dispatch('successMessage',['title'=>'پروژه ایجاد شد']);
     }
 
-    public function editBoard($id)
+    public function editBoard($id): void
     {
         $board = Board::query()->find($id);
         $this->title = $board->title;
@@ -37,7 +37,7 @@ class Boards extends Component
         $this->editIndex = $id;
     }
 
-    public function updateBoard()
+    public function updateBoard(): void
     {
         $board = Board::query()->find($this->editIndex);
         $board->update([
@@ -52,13 +52,13 @@ class Boards extends Component
     }
 
     #[On('destroyBoard')]
-    public function destroyBoard($id)
+    public function destroyBoard($id): void
     {
         Board::destroy($id);
     }
 
     #[On('archivedBoard')]
-    public function archivedBoard($id)
+    public function archivedBoard($id): void
     {
         $board = Board::query()->find($id);
         $board->update([

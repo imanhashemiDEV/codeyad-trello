@@ -27,6 +27,7 @@
     <script src="{{url('assets/js/config.js')}}"></script>
     <!-- Better experience of RTL -->
     <link href="{{url('assets/css/rtl.css')}}" rel="stylesheet"/>
+    @livewireStyles
 </head>
 
 <body class="p-4">
@@ -49,5 +50,6 @@
 <script src="{{url('assets/js/main.js')}}"></script>
 <script src="{{url('assets/vendor/libs/sweetalert2/sweetalert2.js')}}"></script>
 <!-- Page JS -->
+@livewireScripts
 </body>
 </html>
