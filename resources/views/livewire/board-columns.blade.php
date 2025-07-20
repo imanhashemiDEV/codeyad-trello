@@ -66,26 +66,20 @@
     <!-- Project Cards -->
     <div class="d-flex flex-nowrap overflow-scroll">
         @foreach($this->boardColumns as $column)
-            <div class="col-3 mx-2" x-data="{editing:false}">
+            <div class="col-3 mx-2" x-data="{editing:false , title:'{{$column->title}} '}">
                 <div class="card overflow-scroll" style="height: 65vh;">
                     <div class="card-header">
                         <div class="d-flex align-items-start" x-on:click.outside="editing=false">
                             <div class="d-flex align-items-start">
-                                <div class="avatar avatar-md me-2 mt-auto mb-auto">
-                                    <img alt="آواتار" class="rounded-circle" src="{{url('assets/img/avatars/12.png')}}"/>
-                                </div>
                                 <div class="me-2 ms-1">
-                                        <h5 class="mb-0" x-show="!editing">
-                                            {{$column->title}}
-                                        </h5>
+                                        <h5 class="mb-0" x-show="!editing" x-text="title"></h5>
                                     <template x-if="editing">
                                         <div class="d-flex">
-                                            <input x-show="editing" class="form-control"  type="text" value="{{$column->title}}">
-                                            <button x-on:click="editing=false"
+                                            <input x-show="editing" class="form-control" type="text" x-model="title">
+                                            <button x-on:click="editing=false; $wire.updateColumn('{{$column->id}}', title)"
                                                 aria-expanded="false"
                                                 class="btn p-0 mr-2"
-                                                type="button"
-                                            >
+                                                type="button">
                                                 <i class="ti ti-device-floppy text-success"></i>
                                             </button>
                                         </div>
@@ -104,7 +98,7 @@
                                         <i class="ti ti-dots-vertical text-muted"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li x-on:click="editing=true" x-show="!editing">
+                                        <li x-on:click="editing=true" x-show="!editing" x-bind:title="'{{$column->title}}'">
                                             <a class="dropdown-item cursor-pointer"> ویرایش</a>
                                         </li>
                                         <li  x-show="editing">

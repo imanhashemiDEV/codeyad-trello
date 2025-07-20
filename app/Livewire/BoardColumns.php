@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Renderless;
 use Livewire\Component;
 
 class BoardColumns extends Component
@@ -32,6 +33,15 @@ class BoardColumns extends Component
     public function boardColumns():Collection
     {
         return BoardColumn::query()->where('board_id', $this->board->id)->get();
+     }
+
+     #[Renderless]
+    public function updateColumn($column_id, $title): void
+     {
+        $column = BoardColumn::query()->find($column_id);
+        $column->update([
+            'title'=>$title,
+        ]);
      }
     #[Layout('panel.master')]
     public function render():View
