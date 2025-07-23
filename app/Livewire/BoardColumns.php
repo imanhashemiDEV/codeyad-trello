@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
 use Livewire\Component;
 
@@ -43,6 +44,14 @@ class BoardColumns extends Component
             'title'=>$title,
         ]);
      }
+
+    #[On('destroyBoardColumn')]
+    public function destroyBoardColumn($id): void
+    {
+        BoardColumn::destroy($id);
+    }
+
+
     #[Layout('panel.master')]
     public function render():View
     {

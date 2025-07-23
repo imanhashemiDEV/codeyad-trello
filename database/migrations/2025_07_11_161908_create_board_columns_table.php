@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('board_id')->constrained('boards')->cascadeOnDelete();
             $table->string('title');
+            $table->string('status')->default(\App\Enums\BoardColumnStatus::ACTIVE->value);
+            $table->integer('order');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

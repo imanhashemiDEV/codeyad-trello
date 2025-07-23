@@ -108,7 +108,7 @@
                                             <hr class="dropdown-divider" />
                                         </li>
                                         <li>
-                                            <a class="dropdown-item text-danger cursor-pointer">حذف</a>
+                                            <a  wire:click="$dispatch('deleteMessage',{ id : {{$column->id}} })" class="dropdown-item text-danger cursor-pointer">حذف</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -271,7 +271,7 @@
             buttonsStyling: false
         }).then(function (result) {
             if (result.value) {
-                $wire.dispatch('destroyBoard', { id : event.id})
+                $wire.dispatch('destroyBoardColumn', { id : event.id})
             }
         });
     })
