@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Board;
 use App\Models\BoardColumn;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -33,7 +34,10 @@ class BoardColumns extends Component
      #[Computed()]
     public function boardColumns():Collection
     {
-        return BoardColumn::query()->where('board_id', $this->board->id)->get();
+        return BoardColumn::query()
+            ->where('board_id', $this->board->id)
+            ->ordered()
+            ->get();
      }
 
      #[Renderless]
@@ -51,6 +55,13 @@ class BoardColumns extends Component
         BoardColumn::destroy($id);
     }
 
+    public function updateBoardColumnOrder(array $items): void
+    {
+        $orders = collect($items)->pluck('value')->toArray();
+        BoardColumn::setNewOrder($orders,1,'id',function (Builder $builder){
+              $builder->where('board_id', $this->board->id);
+        });
+    }
 
     #[Layout('panel.master')]
     public function render():View

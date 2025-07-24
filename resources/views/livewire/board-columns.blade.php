@@ -64,9 +64,9 @@
         </div>
     </div>
     <!-- Project Cards -->
-    <div class="d-flex flex-nowrap overflow-scroll">
+    <div wire:sortable="updateBoardColumnOrder" class="d-flex flex-nowrap overflow-scroll">
         @foreach($this->boardColumns as $column)
-            <div class="col-3 mx-2" x-data="{editing:false , title:'{{$column->title}} '}">
+            <div wire:sortable.item="{{ $column->id }}" wire:key="column-{{ $column->id }}" class="col-3 mx-2" x-data="{editing:false , title:'{{$column->title}} '}">
                 <div class="card overflow-scroll" style="height: 65vh;">
                     <div class="card-header">
                         <div class="d-flex align-items-start" x-on:click.outside="editing=false">

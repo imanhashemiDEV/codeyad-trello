@@ -5,16 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
-class BoardColumn extends Model
+class BoardColumn extends Model implements Sortable
 {
-    use SoftDeletes;
+    use SoftDeletes , SortableTrait;
 
     protected $fillable = [
         'board_id',
         'title',
         'status',
         'order'
+    ];
+
+    public $sortable = [
+        'order_column_name' => 'order',
+        'sort_when_creating' => true,
     ];
 
     public function board(): BelongsTo
