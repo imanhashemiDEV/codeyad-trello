@@ -16,6 +16,8 @@
     <!-- Vendors CSS -->
     <link href="{{url('assets/vendor/libs/node-waves/node-waves.css')}}" rel="stylesheet"/>
     <link href="{{url('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" rel="stylesheet"/>
+    <link href="{{url('assets/vendor/libs/select2/select2.css')}}" rel="stylesheet" />
+
     <link rel="stylesheet" href="{{url('assets/vendor/libs/animate-css/animate.css')}}" />
     <link rel="stylesheet" href="{{url('assets/vendor/libs/sweetalert2/sweetalert2.css')}}" />
     <!-- Page CSS -->
@@ -50,6 +52,7 @@
 <!-- Main JS -->
 <script src="{{url('assets/js/main.js')}}"></script>
 <script src="{{url('assets/vendor/libs/sweetalert2/sweetalert2.js')}}"></script>
+<script src="{{url('assets/vendor/libs/select2/select2.js')}}"></script>
 <!-- Page JS -->
 @livewireScripts
 <script src="{{url('assets/js/livewire-sortable.js')}}"></script>

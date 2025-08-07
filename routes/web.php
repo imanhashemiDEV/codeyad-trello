@@ -7,7 +7,7 @@ use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth'])->group(function (){
+Route::middleware('auth')->group(function (){
     Route::get('/', Boards::class)->name('home');
     Route::get('/board_columns/{board}', BoardColumns::class)->name('board.columns');
 });
@@ -17,7 +17,7 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Route::get('settings/profile', Profile::class)->name('settings.profile');

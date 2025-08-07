@@ -8,37 +8,31 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
-class BoardColumn extends Model implements Sortable
+class Card extends Model implements Sortable
 {
     use SoftDeletes , SortableTrait;
-
     protected $fillable = [
-        'board_id',
+        'board_column_id',
         'title',
         'status',
         'order'
     ];
+
+    public function boardColumn(): BelongsTo
+    {
+       return $this->belongsTo(BoardColumn::class);
+    }
 
     public $sortable = [
         'order_column_name' => 'order',
         'sort_when_creating' => true,
     ];
 
-    public function board(): BelongsTo
-    {
-        return $this->belongsTo(Board::class);
-    }
-
-    public function cards()
-    {
-       return $this->hasMany(Card::class);
-    }
-
     protected static function boot(): void
     {
         parent::boot();
         static::creating(function ($element) {
-            $max = BoardColumn::max('order');
+            $max = Card::max('order');
             $element->order = $max + 1;
         });
     }

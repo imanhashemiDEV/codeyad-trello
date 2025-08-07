@@ -37,46 +37,27 @@
     <div class="my-3">
         <div class="mt-3">
             <!-- Button trigger modal -->
-            <button class="btn btn-primary waves-effect waves-light" data-bs-target="#modalCenter" data-bs-toggle="modal" type="button">ایجاد ستون</button>
-            <!-- Modal -->
-            <div class="modal fade" id="modalCenter" tabindex="-1" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalCenterTitle">ایجاد ستون پروژه</h5>
-                            <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label class="form-label" for="nameWithTitle">نام ستون</label>
-                                    <input wire:model="title" class="form-control" id="nameWithTitle" placeholder="نام ستون را وارد کنید" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal" type="button"> بستن</button>
-                            <button wire:click="createBoardColumn" class="btn btn-primary waves-effect waves-light" type="button">ذخیره</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <button class="btn btn-primary waves-effect waves-light" data-bs-target="#modalCenter"
+                    data-bs-toggle="modal" type="button">ایجاد ستون
+            </button>
         </div>
     </div>
     <!-- Project Cards -->
     <div wire:sortable="updateBoardColumnOrder" class="d-flex flex-nowrap overflow-scroll">
         @foreach($this->boardColumns as $column)
-            <div wire:sortable.item="{{ $column->id }}" wire:key="column-{{ $column->id }}" class="col-3 mx-2" x-data="{editing:false , title:'{{$column->title}} '}">
+            <div wire:sortable.item="{{ $column->id }}" wire:key="column-{{ $column->id }}" class="col-3 mx-2"
+                 x-data="{editing:false , title:'{{$column->title}} '}">
                 <div class="card overflow-scroll" style="height: 65vh;">
                     <div class="card-header">
                         <div class="d-flex align-items-start" x-on:click.outside="editing=false">
                             <div class="d-flex align-items-start">
                                 <div class="me-2 ms-1">
-                                        <h5 class="mb-0" x-show="!editing" x-text="title"></h5>
+                                    <h5 class="mb-0" x-show="!editing" x-text="title"></h5>
                                     <template x-if="editing">
                                         <div class="d-flex">
                                             <input x-show="editing" class="form-control" type="text" x-model="title">
-                                            <button x-on:click="editing=false; $wire.updateColumn('{{$column->id}}', title)"
+                                            <button
+                                                x-on:click="editing=false; $wire.updateColumn('{{$column->id}}', title)"
                                                 aria-expanded="false"
                                                 class="btn p-0 mr-2"
                                                 type="button">
@@ -87,162 +68,298 @@
 
                                 </div>
                             </div>
-                            <div class="ms-auto">
+                            <div class="ms-auto d-flex">
+                                <div class="z-2" >
+                                    <button wire:click.prevent="$set('column_id','{{$column->id}}')"  data-bs-target="#createCard"
+                                            data-bs-toggle="modal"
+                                        aria-expanded="false"
+                                        class="btn btn-success p-1 mx-1"
+                                        type="button">
+                                        ایجاد وظیفه
+                                    </button>
+                                </div>
                                 <div class="dropdown z-2">
                                     <button
                                         aria-expanded="false"
-                                        class="btn dropdown-toggle hide-arrow p-0"
+                                        class="btn btn-warning dropdown-toggle p-1 mx-1"
                                         data-bs-toggle="dropdown"
-                                        type="button"
-                                    >
-                                        <i class="ti ti-dots-vertical text-muted"></i>
+                                        type="button">
+                                        عملیات
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li x-on:click="editing=true" x-show="!editing" x-bind:title="'{{$column->title}}'">
+                                        <li x-on:click="editing=true" x-show="!editing"
+                                            x-bind:title="'{{$column->title}}'">
                                             <a class="dropdown-item cursor-pointer"> ویرایش</a>
                                         </li>
-                                        <li  x-show="editing">
+                                        <li x-show="editing">
                                             <a class="dropdown-item cursor-pointer"> در حال ویرایش</a>
                                         </li>
                                         <li>
-                                            <hr class="dropdown-divider" />
+                                            <hr class="dropdown-divider"/>
                                         </li>
                                         <li>
-                                            <a  wire:click="$dispatch('deleteMessage',{ id : {{$column->id}} })" class="dropdown-item text-danger cursor-pointer">حذف</a>
+                                            <a wire:click="$dispatch('deleteMessage',{ id : {{$column->id}} })"
+                                               class="dropdown-item text-danger cursor-pointer">حذف</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body" >
+                    <div class="card-body">
                         <ul class="timeline pt-3 ">
-                            <li class="timeline-item mt-4 pb-0 timeline-item-warning border-transparent">
-                                    <span class="timeline-indicator-advanced timeline-indicator-warning">
-                                        <i class="ti ti-bell rounded-circle"></i>
-                                    </span>
-                                <div class="timeline-event pb-3">
-                                    <div class="timeline-header">
-                                        <h6 class="mb-0">عنوان</h6>
-                                        <span class="text-muted">7 دی</span>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap border-top-0 p-0">
-                                            <div class="d-flex flex-wrap align-items-center">
-                                                <ul class="list-unstyled users-list d-flex align-items-center avatar-group m-0 my-3 me-2">
-                                                    <li class="avatar avatar-xs pull-up" data-bs-placement="top" data-bs-toggle="tooltip" data-popup="tooltip-custom" aria-label="مهرداد محمدی" data-bs-original-title="مهرداد محمدی">
-                                                        <img alt="آواتار" class="rounded-circle" src="../../assets/img/avatars/5.png">
-                                                    </li>
-                                                    <li class="avatar avatar-xs pull-up" data-bs-placement="top" data-bs-toggle="tooltip" data-popup="tooltip-custom" aria-label="صدف طاهری" data-bs-original-title="صدف طاهری">
-                                                        <img alt="آواتار" class="rounded-circle" src="../../assets/img/avatars/12.png">
-                                                    </li>
-
-                                                </ul>
-
-                                            </div>
-                                            <button class="btn btn-outline-primary btn-sm my-sm-0 my-3 waves-effect">مشاهده</button>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pb-0 px-0">
-                                            <div class="d-flex flex-sm-row flex-column align-items-center">
-                                                <img alt="آواتار" class="rounded-circle me-3" height="40" src="../../assets/img/avatars/4.png" width="40">
-                                                <div class="user-info">
-                                                    <p class="my-0">شرح تسک</p>
-                                                    <span class="text-muted">تاریخ</span>
+                           @foreach($column->cards as $card)
+                                <li
+                                    class="timeline-item mt-4 pb-0 timeline-item-warning border-transparent">
+                                <span
+                                    class="timeline-indicator-advanced timeline-indicator-warning">
+                                  <i class="ti ti-bell rounded-circle"></i>
+                                </span>
+                                    <div class="timeline-event pb-3">
+                                        <div class="timeline-header">
+                                            <h6 class="mb-0">{{$card->title}}</h6>
+                                            <span class="text-muted">7 دی</span>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center flex-wrap border-top-0 p-0"
+                                            >
+                                                <div class="d-flex flex-wrap align-items-center">
+                                                    <ul
+                                                        class="list-unstyled users-list d-flex align-items-center avatar-group m-0 my-3 me-2"
+                                                    >
+                                                        <li
+                                                            class="avatar avatar-xs pull-up" data-bs-placement="top"
+                                                            data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                            aria-label="مهرداد محمدی" data-bs-original-title="مهرداد محمدی">
+                                                            <img
+                                                                alt="آواتار"
+                                                                class="rounded-circle"
+                                                                src="../../assets/img/avatars/5.png"
+                                                            />
+                                                        </li>
+                                                        <li class="avatar avatar-xs pull-up" data-bs-placement="top"
+                                                            data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                            aria-label="مهرداد محمدی" data-bs-original-title="مهرداد محمدی">
+                                                            <img alt="آواتار"
+                                                                 class="rounded-circle"
+                                                                 src="../../assets/img/avatars/12.png"/>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="timeline-item mt-4 pb-0 timeline-item-warning border-transparent">
-                                    <span class="timeline-indicator-advanced timeline-indicator-warning">
-                                        <i class="ti ti-bell rounded-circle"></i>
-                                    </span>
-                                <div class="timeline-event pb-3">
-                                    <div class="timeline-header">
-                                        <h6 class="mb-0">عنوان</h6>
-                                        <span class="text-muted">7 دی</span>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap border-top-0 p-0">
-                                            <div class="d-flex flex-wrap align-items-center">
-                                                <ul class="list-unstyled users-list d-flex align-items-center avatar-group m-0 my-3 me-2">
-                                                    <li class="avatar avatar-xs pull-up" data-bs-placement="top" data-bs-toggle="tooltip" data-popup="tooltip-custom" aria-label="مهرداد محمدی" data-bs-original-title="مهرداد محمدی">
-                                                        <img alt="آواتار" class="rounded-circle" src="../../assets/img/avatars/5.png">
-                                                    </li>
-                                                    <li class="avatar avatar-xs pull-up" data-bs-placement="top" data-bs-toggle="tooltip" data-popup="tooltip-custom" aria-label="صدف طاهری" data-bs-original-title="صدف طاهری">
-                                                        <img alt="آواتار" class="rounded-circle" src="../../assets/img/avatars/12.png">
-                                                    </li>
-
-                                                </ul>
-
-                                            </div>
-                                            <button class="btn btn-outline-primary btn-sm my-sm-0 my-3 waves-effect">مشاهده</button>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pb-0 px-0">
-                                            <div class="d-flex flex-sm-row flex-column align-items-center">
-                                                <img alt="آواتار" class="rounded-circle me-3" height="40" src="../../assets/img/avatars/4.png" width="40">
-                                                <div class="user-info">
-                                                    <p class="my-0">شرح تسک</p>
-                                                    <span class="text-muted">تاریخ</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="timeline-item mt-4 pb-0 timeline-item-warning border-transparent">
-                                    <span class="timeline-indicator-advanced timeline-indicator-warning">
-                                        <i class="ti ti-bell rounded-circle"></i>
-                                    </span>
-                                <div class="timeline-event pb-3">
-                                    <div class="timeline-header">
-                                        <h6 class="mb-0">عنوان</h6>
-                                        <span class="text-muted">7 دی</span>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap border-top-0 p-0">
-                                            <div class="d-flex flex-wrap align-items-center">
-                                                <ul class="list-unstyled users-list d-flex align-items-center avatar-group m-0 my-3 me-2">
-                                                    <li class="avatar avatar-xs pull-up" data-bs-placement="top" data-bs-toggle="tooltip" data-popup="tooltip-custom" aria-label="مهرداد محمدی" data-bs-original-title="مهرداد محمدی">
-                                                        <img alt="آواتار" class="rounded-circle" src="../../assets/img/avatars/5.png">
-                                                    </li>
-                                                    <li class="avatar avatar-xs pull-up" data-bs-placement="top" data-bs-toggle="tooltip" data-popup="tooltip-custom" aria-label="صدف طاهری" data-bs-original-title="صدف طاهری">
-                                                        <img alt="آواتار" class="rounded-circle" src="../../assets/img/avatars/12.png">
-                                                    </li>
-
-                                                </ul>
-
-                                            </div>
-                                            <button class="btn btn-outline-primary btn-sm my-sm-0 my-3 waves-effect">مشاهده</button>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pb-0 px-0">
-                                            <div class="d-flex flex-sm-row flex-column align-items-center">
-                                                <img alt="آواتار" class="rounded-circle me-3" height="40" src="../../assets/img/avatars/4.png" width="40">
-                                                <div class="user-info">
-                                                    <p class="my-0">شرح تسک</p>
-                                                    <span class="text-muted">تاریخ</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+                                </li>
+                           @endforeach
                         </ul>
                     </div>
                 </div>
             </div>
         @endforeach
+    </div>
 
+    <!-- Modals -->
+    <div class="modal fade" id="modalCenter" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCenterTitle">ایجاد ستون پروژه</h5>
+                    <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label class="form-label" for="nameWithTitle">نام ستون</label>
+                            <input wire:model="title" class="form-control" id="nameWithTitle"
+                                   placeholder="نام ستون را وارد کنید" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal" type="button"> بستن
+                    </button>
+                    <button wire:click="createBoardColumn" class="btn btn-primary waves-effect waves-light"
+                            type="button">ذخیره
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div aria-hidden="true" class="modal fade" id="createCard" tabindex="-1" wire:ignore.self>
+        <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+            <div class="modal-content p-3 p-md-5">
+                <div class="modal-body">
+                    <button
+                        aria-label="Close"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        type="button"
+                    ></button>
+                    <div class="text-center mb-4">
+                        <h3 class="mb-2">کارت وظیفه</h3>
+                    </div>
+                    <form
+                        class="row g-3 fv-plugins-bootstrap5 fv-plugins-framework"
+                        id="editUserForm"
+                        onsubmit="return false"
+                        novalidate="novalidate">
+                        <div class="col-12 fv-plugins-icon-container">
+                            <label class="form-label">عنوان وظیفه </label>
+                            <input wire:model="card_title" class="form-control" type="text"/>
+                            <div
+                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+                        </div>
+
+{{--                        <div class="col-12 mb-4">--}}
+{{--                            <label class="form-label" for="TagifyUserList">لیست کاربران</label>--}}
+{{--                            <input class="form-control" id="TagifyUserList" name="TagifyUserList"/>--}}
+{{--                        </div>--}}
+                        <div class="col-12 text-center mt-5">
+                            <button wire:click="createCard"
+                                class="btn btn-primary me-sm-3 me-1 waves-effect waves-light"
+                                type="submit">
+                                ذخیره
+                            </button>
+                            <button
+                                aria-label="Close"
+                                class="btn btn-label-secondary waves-effect"
+                                data-bs-dismiss="modal"
+                                type="reset"
+                            >
+                                انصراف
+                            </button>
+                        </div>
+                        <input type="hidden" />
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
+@assets
+<link href="{{url('assets/vendor/libs/tagify/tagify.css')}}" rel="stylesheet" />
+<script src="{{url('assets/vendor/libs/tagify/tagify.js')}}"></script>
+@endassets
+
 @script
 <script>
-    $wire.on('closeModal' , function (){
+
+    const usersList = [
+        {
+            value: 1,
+            name: 'Justinian Hattersley',
+            avatar: 'https://i.pravatar.cc/80?img=1',
+            email: 'jhattersley0@ucsd.edu'
+        },
+        {
+            value: 2,
+            name: 'Antons Esson',
+            avatar: 'https://i.pravatar.cc/80?img=2',
+            email: 'aesson1@ning.com'
+        },
+        {
+            value: 3,
+            name: 'Ardeen Batisse',
+            avatar: 'https://i.pravatar.cc/80?img=3',
+            email: 'abatisse2@nih.gov'
+        },
+        {
+            value: 4,
+            name: 'Graeme Yellowley',
+            avatar: 'https://i.pravatar.cc/80?img=4',
+            email: 'gyellowley3@behance.net'
+        },
+    ];
+    initUsersList()
+    function initUsersList() {
+        const TagifyUserListEl = document.querySelector('#TagifyUserList');
+        function tagTemplate(tagData) {
+            return `
+    <tag title="${tagData.title || tagData.email}"
+      contenteditable='false'
+      spellcheck='false'
+      tabIndex="-1"
+      class="${this.settings.classNames.tag} ${tagData.class ? tagData.class : ''}"
+      ${this.getAttributes(tagData)}
+    >
+      <x title='' class='tagify__tag__removeBtn' role='button' aria-label='remove tag'></x>
+      <div>
+        <div class='tagify__tag__avatar-wrap'>
+          <img onerror="this.style.visibility='hidden'" src="${tagData.avatar}">
+        </div>
+        <span class='tagify__tag-text'>${tagData.name}</span>
+      </div>
+    </tag>
+  `;
+        }
+
+        function suggestionItemTemplate(tagData) {
+            return `
+    <div ${this.getAttributes(tagData)}
+      class='tagify__dropdown__item align-items-center ${tagData.class ? tagData.class : ''}'
+      tabindex="0"
+      role="option"
+    >
+      ${
+                tagData.avatar
+                    ? `<div class='tagify__dropdown__item__avatar-wrap'>
+          <img onerror="this.style.visibility='hidden'" src="${tagData.avatar}">
+        </div>`
+                    : ''
+            }
+      <div class="fw-medium">${tagData.name}</div>
+      <span>${tagData.email}</span>
+    </div>
+  `;
+        }
+
+        // initialize Tagify on the above input node reference
+        let TagifyUserList = new Tagify(TagifyUserListEl, {
+            tagTextProp: 'name', // very important since a custom template is used with this property as text. allows typing a "value" or a "name" to match input with whitelist
+            enforceWhitelist: true,
+            skipInvalid: true, // do not remporarily add invalid tags
+            dropdown: {
+                closeOnSelect: false,
+                enabled: 0,
+                classname: 'users-list',
+                searchKeys: ['name', 'email'] // very important to set by which keys to search for suggesttions when typing
+            },
+            templates: {
+                tag: tagTemplate,
+                dropdownItem: suggestionItemTemplate,
+
+            },
+            whitelist: usersList
+        });
+
+        // attach events listeners
+        TagifyUserList.on('dropdown:select', onSelectSuggestion) // allows selecting all the suggested (whitelist) items
+            .on('edit:start', onEditStart); // show custom text in the tag while in edit-mode
+
+        function onSelectSuggestion(e) {
+            // custom class from "dropdownHeaderTemplate"
+            if (e.detail.elm.classList.contains(`${TagifyUserList.settings.classNames.dropdownItem}__addAll`))
+                TagifyUserList.dropdown.selectAll();
+        }
+
+        function onEditStart({ detail: { tag, data } }) {
+            TagifyUserList.setTagTextNode(tag, `${data.name} <${data.email}>`);
+        }
+    }
+
+    $wire.on('closeModal', function () {
         $('#modalCenter').modal('hide')
     })
 
-    $wire.on('successMessage' , function (event){
+    $wire.on('closeCardModal', function () {
+        $('#createCard').modal('hide')
+    })
+
+    $wire.on('successMessage', function (event) {
         Swal.fire({
             position: 'center',
             icon: 'success',
@@ -257,7 +374,7 @@
         });
     })
 
-    $wire.on('deleteMessage' , function (event){
+    $wire.on('deleteMessage', function (event) {
         Swal.fire({
             title: 'آیا از حذف مطمئن هستید؟',
             icon: 'warning',
@@ -271,7 +388,7 @@
             buttonsStyling: false
         }).then(function (result) {
             if (result.value) {
-                $wire.dispatch('destroyBoardColumn', { id : event.id})
+                $wire.dispatch('destroyBoardColumn', {id: event.id})
             }
         });
     })

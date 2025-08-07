@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Board;
 use App\Models\BoardColumn;
+use App\Models\Card;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,7 +19,7 @@ class BoardColumns extends Component
 
      public Board $board;
 
-     public $title;
+     public $title,$card_title;
 
     public function createBoardColumn(): void
     {
@@ -61,6 +62,17 @@ class BoardColumns extends Component
         BoardColumn::setNewOrder($orders,1,'id',function (Builder $builder){
               $builder->where('board_id', $this->board->id);
         });
+    }
+
+    public function createCard()
+    {
+        Card::query()->create([
+            'board_column_id'=>$this->board->id,
+            'title'=>$this->card_title,
+        ]);
+
+        $this->dispatch('closeCardModal');
+        $this->dispatch('successMessage',['title'=>'وظیفه ایجاد شد']);
     }
 
     #[Layout('panel.master')]
