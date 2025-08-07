@@ -19,7 +19,7 @@ class BoardColumns extends Component
 
      public Board $board;
 
-     public $title,$card_title;
+     public $title,$card_title,$column_id;
 
     public function createBoardColumn(): void
     {
@@ -67,12 +67,18 @@ class BoardColumns extends Component
     public function createCard()
     {
         Card::query()->create([
-            'board_column_id'=>$this->board->id,
+            'board_column_id'=>$this->column_id,
             'title'=>$this->card_title,
         ]);
 
         $this->dispatch('closeCardModal');
         $this->dispatch('successMessage',['title'=>'وظیفه ایجاد شد']);
+    }
+
+    #[On('destroyCard')]
+    public function destroyCard($id): void
+    {
+        Card::destroy($id);
     }
 
     #[Layout('panel.master')]

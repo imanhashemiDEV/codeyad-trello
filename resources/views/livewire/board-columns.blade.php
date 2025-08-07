@@ -70,7 +70,7 @@
                             </div>
                             <div class="ms-auto d-flex">
                                 <div class="z-2" >
-                                    <button wire:click.prevent="$set('column_id','{{$column->id}}')"  data-bs-target="#createCard"
+                                    <button wire:click="$set('column_id','{{$column->id}}')" data-bs-target="#createCard"
                                             data-bs-toggle="modal"
                                         aria-expanded="false"
                                         class="btn btn-success p-1 mx-1"
@@ -108,7 +108,7 @@
                     </div>
                     <div class="card-body">
                         <ul class="timeline pt-3 ">
-                           @foreach($column->cards as $card)
+                            @foreach($column->cards()->where('board_column_id',$column->id)->get() as $card)
                                 <li
                                     class="timeline-item mt-4 pb-0 timeline-item-warning border-transparent">
                                 <span
@@ -118,13 +118,13 @@
                                     <div class="timeline-event pb-3">
                                         <div class="timeline-header">
                                             <h6 class="mb-0">{{$card->title}}</h6>
-                                            <span class="text-muted">7 دی</span>
+                                            <span class="text-muted">{{\Hekmatinasser\Verta\Verta::instance($card->created_at)->format('%B %d')}}</span>
                                         </div>
                                         <ul class="list-group list-group-flush">
                                             <li
                                                 class="list-group-item d-flex justify-content-between align-items-center flex-wrap border-top-0 p-0"
                                             >
-                                                <div class="d-flex flex-wrap align-items-center">
+                                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between">
                                                     <ul
                                                         class="list-unstyled users-list d-flex align-items-center avatar-group m-0 my-3 me-2"
                                                     >
@@ -146,12 +146,16 @@
                                                                  src="../../assets/img/avatars/12.png"/>
                                                         </li>
                                                     </ul>
+                                                    <span wire:click="$dispatch('deleteCard',{ id : {{$card->id}} })" class="cursor-pointer">
+                                                      <i class="ti ti-trash text-danger rounded-circle"></i>
+                                                    </span>
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
                                 </li>
-                           @endforeach
+                            @endforeach
+
                         </ul>
                     </div>
                 </div>
@@ -160,7 +164,7 @@
     </div>
 
     <!-- Modals -->
-    <div class="modal fade" id="modalCenter" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal fade" id="modalCenter" tabindex="-1" style="display: none;" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -297,25 +301,19 @@
   `;
         }
 
-        function suggestionItemTemplate(tagData) {
+  function suggestionItemTemplate(tagData) {
             return `
     <div ${this.getAttributes(tagData)}
       class='tagify__dropdown__item align-items-center ${tagData.class ? tagData.class : ''}'
       tabindex="0"
-      role="option"
-    >
-      ${
-                tagData.avatar
-                    ? `<div class='tagify__dropdown__item__avatar-wrap'>
+      role="option">
+      ${tagData.avatar ? `<div class='tagify__dropdown__item__avatar-wrap'>
           <img onerror="this.style.visibility='hidden'" src="${tagData.avatar}">
-        </div>`
-                    : ''
-            }
+        </div>` : ''}
       <div class="fw-medium">${tagData.name}</div>
       <span>${tagData.email}</span>
-    </div>
-  `;
-        }
+    </div>`;
+   }
 
         // initialize Tagify on the above input node reference
         let TagifyUserList = new Tagify(TagifyUserListEl, {
@@ -389,6 +387,25 @@
         }).then(function (result) {
             if (result.value) {
                 $wire.dispatch('destroyBoardColumn', {id: event.id})
+            }
+        });
+    })
+
+    $wire.on('deleteCard', function (event) {
+        Swal.fire({
+            title: 'آیا از حذف مطمئن هستید؟',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'بله',
+            cancelButtonText: 'خیر',
+            customClass: {
+                confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+            },
+            buttonsStyling: false
+        }).then(function (result) {
+            if (result.value) {
+                $wire.dispatch('destroyCard', {id: event.id})
             }
         });
     })
