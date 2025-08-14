@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -27,6 +28,11 @@ class Card extends Model implements Sortable
         'order_column_name' => 'order',
         'sort_when_creating' => true,
     ];
+
+    public function users(): BelongsToMany
+    {
+       return $this->belongsToMany(User::class,'card_user');
+    }
 
     protected static function boot(): void
     {

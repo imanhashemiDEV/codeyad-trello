@@ -215,11 +215,10 @@
                             <div
                                 class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                         </div>
-
-{{--                        <div class="col-12 mb-4">--}}
-{{--                            <label class="form-label" for="TagifyUserList">لیست کاربران</label>--}}
-{{--                            <input class="form-control" id="TagifyUserList" name="TagifyUserList"/>--}}
-{{--                        </div>--}}
+                        <div class="col-12 mb-4" wire:ignore>
+                            <label class="form-label" for="TagifyUserList">لیست کاربران</label>
+                            <input class="form-control" id="TagifyUserList" name="TagifyUserList"/>
+                        </div>
                         <div class="col-12 text-center mt-5">
                             <button wire:click="createCard"
                                 class="btn btn-primary me-sm-3 me-1 waves-effect waves-light"
@@ -252,32 +251,7 @@
 @script
 <script>
 
-    const usersList = [
-        {
-            value: 1,
-            name: 'Justinian Hattersley',
-            avatar: 'https://i.pravatar.cc/80?img=1',
-            email: 'jhattersley0@ucsd.edu'
-        },
-        {
-            value: 2,
-            name: 'Antons Esson',
-            avatar: 'https://i.pravatar.cc/80?img=2',
-            email: 'aesson1@ning.com'
-        },
-        {
-            value: 3,
-            name: 'Ardeen Batisse',
-            avatar: 'https://i.pravatar.cc/80?img=3',
-            email: 'abatisse2@nih.gov'
-        },
-        {
-            value: 4,
-            name: 'Graeme Yellowley',
-            avatar: 'https://i.pravatar.cc/80?img=4',
-            email: 'gyellowley3@behance.net'
-        },
-    ];
+    const usersList = $wire.users;
     initUsersList()
     function initUsersList() {
         const TagifyUserListEl = document.querySelector('#TagifyUserList');

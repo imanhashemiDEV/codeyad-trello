@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Board;
 use App\Models\BoardColumn;
 use App\Models\Card;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,8 +20,14 @@ class BoardColumns extends Component
 
      public Board $board;
 
-     public $title,$card_title,$column_id;
+     public $title,$card_title,$column_id,$users;
 
+    public function mount()
+    {
+        $this->users = User::query()->get()->toArray();
+     }
+
+     // Column Functions
     public function createBoardColumn(): void
     {
         BoardColumn::query()->create([
@@ -64,7 +71,9 @@ class BoardColumns extends Component
         });
     }
 
-    public function createCard()
+
+    // Card Functions
+    public function createCard(): void
     {
         Card::query()->create([
             'board_column_id'=>$this->column_id,
