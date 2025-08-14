@@ -79,7 +79,7 @@ class BoardColumns extends Component
         $card_users = collect(json_decode($selected_users))->pluck('id')->toArray();
         $card = Card::query()->create([
             'board_column_id'=>$this->column_id,
-            'title'=>$this->card_title,
+            'title'=>$this->card_title
         ]);
 
         $card->users()->sync($card_users);

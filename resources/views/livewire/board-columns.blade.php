@@ -126,25 +126,20 @@
                                             >
                                                 <div class="d-flex w-100 flex-wrap align-items-center justify-content-between">
                                                     <ul
-                                                        class="list-unstyled users-list d-flex align-items-center avatar-group m-0 my-3 me-2"
-                                                    >
-                                                        <li
-                                                            class="avatar avatar-xs pull-up" data-bs-placement="top"
-                                                            data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                            aria-label="مهرداد محمدی" data-bs-original-title="مهرداد محمدی">
-                                                            <img
-                                                                alt="آواتار"
-                                                                class="rounded-circle"
-                                                                src="../../assets/img/avatars/5.png"
-                                                            />
-                                                        </li>
-                                                        <li class="avatar avatar-xs pull-up" data-bs-placement="top"
-                                                            data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                            aria-label="مهرداد محمدی" data-bs-original-title="مهرداد محمدی">
-                                                            <img alt="آواتار"
-                                                                 class="rounded-circle"
-                                                                 src="../../assets/img/avatars/12.png"/>
-                                                        </li>
+                                                        class="list-unstyled users-list d-flex align-items-center avatar-group m-0 my-3 me-2">
+                                                        @foreach($card->users as $user)
+                                                            <li
+                                                                class="avatar avatar-xs pull-up" data-bs-placement="top"
+                                                                data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                                aria-label="{{$user->name}}" data-bs-original-title="{{$user->name}}">
+                                                                <img
+                                                                    alt="{{$user->name}}"
+                                                                    class="rounded-circle"
+                                                                    src="{{$user->avatar}}"
+                                                                />
+                                                            </li>
+                                                        @endforeach
+
                                                     </ul>
                                                     <span wire:click="$dispatch('deleteCard',{ id : {{$card->id}} })" class="cursor-pointer">
                                                       <i class="ti ti-trash text-danger rounded-circle"></i>
