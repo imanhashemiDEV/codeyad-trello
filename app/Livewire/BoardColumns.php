@@ -73,12 +73,16 @@ class BoardColumns extends Component
 
 
     // Card Functions
-    public function createCard(): void
+    #[On('storeCard')]
+    public function storeCard($selected_users): void
     {
-        Card::query()->create([
+        $card_users = collect(json_decode($selected_users))->pluck('id')->toArray();
+        $card = Card::query()->create([
             'board_column_id'=>$this->column_id,
             'title'=>$this->card_title,
         ]);
+
+        $card->users()->sync($card_users);
 
         $this->dispatch('closeCardModal');
         $this->dispatch('successMessage',['title'=>'وظیفه ایجاد شد']);

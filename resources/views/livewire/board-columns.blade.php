@@ -45,7 +45,7 @@
     <!-- Project Cards -->
     <div wire:sortable="updateBoardColumnOrder" class="d-flex flex-nowrap overflow-scroll">
         @foreach($this->boardColumns as $column)
-            <div wire:sortable.item="{{ $column->id }}" wire:key="column-{{ $column->id }}" class="col-3 mx-2"
+            <div wire:sortable.item="{{ $column->id }}" wire:key="column-{{ $column->id }}" class="col-10 col-sm-8 col-md-6 col-lg-3 mx-2"
                  x-data="{editing:false , title:'{{$column->title}} '}">
                 <div class="card overflow-scroll" style="height: 65vh;">
                     <div class="card-header">
@@ -220,7 +220,7 @@
                             <input class="form-control" id="TagifyUserList" name="TagifyUserList"/>
                         </div>
                         <div class="col-12 text-center mt-5">
-                            <button wire:click="createCard"
+                            <button wire:click="$dispatch('createCard')"
                                 class="btn btn-primary me-sm-3 me-1 waves-effect waves-light"
                                 type="submit">
                                 ذخیره
@@ -322,6 +322,13 @@
             TagifyUserList.setTagTextNode(tag, `${data.name} <${data.email}>`);
         }
     }
+
+
+    $wire.on('createCard', () => {
+        let users = document.getElementById('TagifyUserList');
+        // console.log(users.value)
+        $wire.dispatch('storeCard', {selected_users: users.value})
+    });
 
     $wire.on('closeModal', function () {
         $('#modalCenter').modal('hide')
