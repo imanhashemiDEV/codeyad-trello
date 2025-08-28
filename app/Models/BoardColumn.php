@@ -31,7 +31,7 @@ class BoardColumn extends Model implements Sortable
 
     public function cards()
     {
-       return $this->hasMany(Card::class);
+       return $this->hasMany(Card::class)->orderBy('order','ASC');
     }
 
     protected static function boot(): void

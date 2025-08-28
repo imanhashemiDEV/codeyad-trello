@@ -43,12 +43,12 @@
         </div>
     </div>
     <!-- Project Cards -->
-    <div wire:sortable="updateBoardColumnOrder" class="d-flex flex-nowrap overflow-scroll">
+    <div wire:sortable="updateBoardColumnOrder" wire:sortable-group="updateCardOrder" class="d-flex flex-nowrap overflow-scroll">
         @foreach($this->boardColumns as $column)
             <div wire:sortable.item="{{ $column->id }}" wire:key="column-{{ $column->id }}" class="col-10 col-sm-8 col-md-6 col-lg-3 mx-2"
                  x-data="{editing:false , title:'{{$column->title}} '}">
                 <div class="card overflow-scroll" style="height: 65vh;">
-                    <div class="card-header">
+                    <div class="card-header" wire:sortable.handle>
                         <div class="d-flex align-items-start" x-on:click.outside="editing=false">
                             <div class="d-flex align-items-start">
                                 <div class="me-2 ms-1">
@@ -107,9 +107,9 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <ul class="timeline pt-3 ">
+                        <ul class="timeline pt-3" wire:sortable-group.item-group="{{ $column->id }}">
                             @foreach($column->cards()->where('board_column_id',$column->id)->get() as $card)
-                                <li
+                                <li wire:key="task-{{ $card->id }}" wire:sortable-group.item="{{ $card->id }}" wire:sortable-group.handle
                                     class="timeline-item mt-4 pb-0 timeline-item-warning border-transparent">
                                 <span
                                     class="timeline-indicator-advanced timeline-indicator-warning">

@@ -18,44 +18,44 @@ use Livewire\Component;
 class BoardColumns extends Component
 {
 
-     public Board $board;
+    public Board $board;
 
-     public $title,$card_title,$column_id,$users;
+    public $title, $card_title, $column_id, $users;
 
     public function mount()
     {
         $this->users = User::query()->get()->toArray();
-     }
+    }
 
-     // Column Functions
+    // Column Functions
     public function createBoardColumn(): void
     {
         BoardColumn::query()->create([
-            'board_id'=> $this->board->id,
-            'title'=>$this->title,
+            'board_id' => $this->board->id,
+            'title' => $this->title,
         ]);
 
         $this->dispatch('closeModal');
-        $this->dispatch('successMessage',['title'=>'ستون ایجاد شد']);
-     }
+        $this->dispatch('successMessage', ['title' => 'ستون ایجاد شد']);
+    }
 
-     #[Computed()]
-    public function boardColumns():Collection
+    #[Computed()]
+    public function boardColumns(): Collection
     {
         return BoardColumn::query()
             ->where('board_id', $this->board->id)
             ->ordered()
             ->get();
-     }
+    }
 
-     #[Renderless]
+    #[Renderless]
     public function updateColumn($column_id, $title): void
-     {
+    {
         $column = BoardColumn::query()->find($column_id);
         $column->update([
-            'title'=>$title,
+            'title' => $title,
         ]);
-     }
+    }
 
     #[On('destroyBoardColumn')]
     public function destroyBoardColumn($id): void
@@ -66,8 +66,8 @@ class BoardColumns extends Component
     public function updateBoardColumnOrder(array $items): void
     {
         $orders = collect($items)->pluck('value')->toArray();
-        BoardColumn::setNewOrder($orders,1,'id',function (Builder $builder){
-              $builder->where('board_id', $this->board->id);
+        BoardColumn::setNewOrder($orders, 1, 'id', function (Builder $builder) {
+            $builder->where('board_id', $this->board->id);
         });
     }
 
@@ -78,14 +78,14 @@ class BoardColumns extends Component
     {
         $card_users = collect(json_decode($selected_users))->pluck('id')->toArray();
         $card = Card::query()->create([
-            'board_column_id'=>$this->column_id,
-            'title'=>$this->card_title
+            'board_column_id' => $this->column_id,
+            'title' => $this->card_title
         ]);
 
         $card->users()->sync($card_users);
 
         $this->dispatch('closeCardModal');
-        $this->dispatch('successMessage',['title'=>'وظیفه ایجاد شد']);
+        $this->dispatch('successMessage', ['title' => 'وظیفه ایجاد شد']);
     }
 
     #[On('destroyCard')]
@@ -94,8 +94,22 @@ class BoardColumns extends Component
         Card::destroy($id);
     }
 
+    public function updateCardOrder(array $items)
+    {
+        //dd($items);
+       collect($items)->recursive()->each(function ($column) {
+           $column_id = $column->get('value');
+           $orders = $column->get('items')->pluck('value')->toArray();
+
+           Card::setNewOrder($orders,1,'id', function (Builder $builder) use ($column_id) {
+               $builder->where('board_column_id',$column_id);
+           });
+
+       });
+    }
+
     #[Layout('panel.master')]
-    public function render():View
+    public function render(): View
     {
         return view('livewire.board-columns');
     }
