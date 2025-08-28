@@ -22,7 +22,7 @@ class BoardColumns extends Component
 
     public $title, $card_title, $column_id, $users;
 
-    public function mount()
+    public function mount(): void
     {
         $this->users = User::query()->get()->toArray();
     }
@@ -94,18 +94,24 @@ class BoardColumns extends Component
         Card::destroy($id);
     }
 
-    public function updateCardOrder(array $items)
+    public function updateCardOrder(array $items): void
     {
         //dd($items);
-       collect($items)->recursive()->each(function ($column) {
-           $column_id = $column->get('value');
-           $orders = $column->get('items')->pluck('value')->toArray();
+        collect($items)->recursive()->each(function ($column) {
+            $column_id = $column->get('value');
+            $orders = $column->get('items')->pluck('value')->toArray();
 
-           Card::setNewOrder($orders,1,'id', function (Builder $builder) use ($column_id) {
-               $builder->where('board_column_id',$column_id);
-           });
+            Card::query()->find($orders)
+                ->where('board_column_id', '!=', $column_id)
+                ->each->update([
+                    'board_column_id' => $column_id
+                ]);
 
-       });
+            Card::setNewOrder($orders, 1, 'id', function (Builder $builder) use ($column_id) {
+                $builder->where('board_column_id', $column_id);
+            });
+
+        });
     }
 
     #[Layout('panel.master')]
